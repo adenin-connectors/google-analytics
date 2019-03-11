@@ -1,0 +1,8 @@
+ServiceName: 'site-vitistors-status'
+InterfaceName: 'status'
+Description: 'My Site Visitors Status'
+APIDoc: ''
+Interfaces: 'daterange'
+RequiredScopes: ''
+AdditionalParameters:
+Method: ''
