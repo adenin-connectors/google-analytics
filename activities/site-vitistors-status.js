@@ -1,48 +1,43 @@
 'use strict';
-
-const cfActivity = require('@adenin/cf-activity');
 const api = require('./common/api');
 
 module.exports = async (activity) => {
   try {
-    api.initialize(activity);
 
-    var dateRange = cfActivity.dateRange(activity, "today");
+    var dateRange = Activity.dateRange("today");
     let start = dateRange.startDate.split('T')[0]; //get just date (yyyy-mm-dd)
     let end = dateRange.endDate.split('T')[0]; //get just date (yyyy-mm-dd)
 
     const response = await api(`/analytics/v3/data/ga?metrics=ga:users&start-date=${start}&end-date=${end}`);
 
-    if (!cfActivity.isResponseOk(activity, response)) {
-      return;
-    }
+    if (Activity.isErrorResponse(response)) return;
 
-    let visitsCount = {
-      title: 'Total Visits',
+    let visitStatus = {
+      title: T('Total Visits'),
       url: 'https://analytics.google.com/analytics/web/',
-      urlLabel: 'All Visits',
+      urlLabel: T('All Visits'),
     };
 
     let visitCount = response.body.totalsForAllResults['ga:users'];
-
+    visitCount = 2;
     if (visitCount != 0) {
-      visitsCount = {
-        ...visitsCount,
-        description: `You have total of ${visitCount > 1 ? visitCount + " visits" : visitCount + " visit"}`,
+      visitStatus = {
+        ...visitStatus,
+        description: visitCount > 1 ? T(`You have total of {0} visits.`, visitCount) : T(`You have total of 1 visit.`),
         color: 'blue',
         value: response.body.length,
         actionable: true
       };
     } else {
-      visitsCount = {
-        ...visitsCount,
-        description: `You have no visits.`,
+      visitStatus = {
+        ...visitStatus,
+        description: T(`You have no visits.`),
         actionable: false
       };
     }
 
-    activity.Response.Data = visitsCount;
+    activity.Response.Data = visitStatus;
   } catch (error) {
-    cfActivity.handleError(activity, error);
+    Activity.handleError(error);
   }
 };
