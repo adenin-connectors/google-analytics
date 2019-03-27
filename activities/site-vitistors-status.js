@@ -14,8 +14,8 @@ module.exports = async (activity) => {
 
     let visitStatus = {
       title: T('Total Visits'),
-      url: 'https://analytics.google.com/analytics/web/',
-      urlLabel: T('All Visits'),
+      linkl: 'https://analytics.google.com/analytics/web/',
+      linkLabel: T('All Visits'),
     };
 
     let visitCount = response.body.totalsForAllResults['ga:users'];
