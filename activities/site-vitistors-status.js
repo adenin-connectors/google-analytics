@@ -13,17 +13,17 @@ module.exports = async (activity) => {
     if (Activity.isErrorResponse(response)) return;
 
     let visitStatus = {
-      title: T('Total Visits'),
+      title: T('Total Visitors'),
       linkl: 'https://analytics.google.com/analytics/web/',
-      linkLabel: T('All Visits'),
+      linkLabel: T('All Visitors'),
     };
 
     let visitCount = response.body.totalsForAllResults['ga:users'];
-    visitCount = 2;
+
     if (visitCount != 0) {
       visitStatus = {
         ...visitStatus,
-        description: visitCount > 1 ? T(`You have total of {0} visits.`, visitCount) : T(`You have total of 1 visit.`),
+        description: visitCount > 1 ? T(`You have total of {0} visitors.`, visitCount) : T(`You have total of 1 visitor.`),
         color: 'blue',
         value: response.body.length,
         actionable: true
@@ -31,7 +31,7 @@ module.exports = async (activity) => {
     } else {
       visitStatus = {
         ...visitStatus,
-        description: T(`You have no visits.`),
+        description: T(`You have no visitors.`),
         actionable: false
       };
     }

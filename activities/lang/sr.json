@@ -1,7 +1,13 @@
 {
-  "Total Visits": "Ukupno Poseta",
-  "All Visits": "Sve Posete",
-  "You have no visits.": "Nemate Novih Poseta",
-  "You have total of {0} visits." : "Imate ukupno {0} poseta.",
-  "You have total of 1 visit." : "Imate ukupno 1 posetu."
+  "Total Visitors": "Ukupno Posetioca",
+  "All Visitors": "Svi Posetioci",
+  "You have no visitors.": "Nemate posetioca",
+  "You have total of {0} visitors." : "Imate ukupno {0} posetioca.",
+  "You have total of 1 visitor." : "Imate ukupno 1 posetioca.",
+  "Traffic By Date" : "Promet Po Datumu",
+  "All Traffic Data" : "Svi podaci o prometu",
+  "Site Data" : "Podaci o sajtu",
+  "Visitors" : "Posetioci",
+  "Visits" : "Posete",
+  "Site Visits Data" : "Podaci o poseti sajta"
 }

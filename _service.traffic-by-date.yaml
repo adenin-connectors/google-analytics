@@ -1,0 +1,8 @@
+ServiceName: 'traffic-by-date'
+InterfaceName: 'chart'
+Description: 'Traffic By Date'
+APIDoc: ''
+Interfaces: 'daterange'
+RequiredScopes: ''
+AdditionalParameters:
+Method: ''
