@@ -4,18 +4,19 @@ const api = require('./common/api');
 module.exports = async (activity) => {
   try {
 
-    var dateRange = Activity.dateRange("today");
+    var dateRange = $.dateRange(activity, "today");
     let start = dateRange.startDate.split('T')[0]; //get just date (yyyy-mm-dd)
     let end = dateRange.endDate.split('T')[0]; //get just date (yyyy-mm-dd)
 
+    api.initialize(activity);
     const response = await api(`/analytics/v3/data/ga?metrics=ga:users&start-date=${start}&end-date=${end}`);
 
-    if (Activity.isErrorResponse(response)) return;
+    if ($.isErrorResponse(activity, response)) return;
 
     let visitStatus = {
-      title: T('Total Visitors'),
+      title: T(activity, 'Total Visitors'),
       linkl: 'https://analytics.google.com/analytics/web/',
-      linkLabel: T('All Visitors'),
+      linkLabel: T(activity, 'All Visitors'),
     };
 
     let visitCount = response.body.totalsForAllResults['ga:users'];
@@ -23,7 +24,8 @@ module.exports = async (activity) => {
     if (visitCount != 0) {
       visitStatus = {
         ...visitStatus,
-        description: visitCount > 1 ? T(`You have total of {0} visitors.`, visitCount) : T(`You have total of 1 visitor.`),
+        description: visitCount > 1 ? T(activity, `You have total of {0} visitors.`, visitCount)
+          : T(activity, `You have total of 1 visitor.`),
         color: 'blue',
         value: response.body.length,
         actionable: true
@@ -31,13 +33,13 @@ module.exports = async (activity) => {
     } else {
       visitStatus = {
         ...visitStatus,
-        description: T(`You have no visitors.`),
+        description: T(activity, `You have no visitors.`),
         actionable: false
       };
     }
 
     activity.Response.Data = visitStatus;
   } catch (error) {
-    Activity.handleError(error);
+    $.handleError(activity, error);
   }
 };

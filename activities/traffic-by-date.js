@@ -2,32 +2,33 @@
 const api = require('./common/api');
 
 module.exports = async (activity) => {
-  var dateRange = Activity.dateRange("today");
+  var dateRange = $.dateRange(activity, "today");
   let start = dateRange.startDate.split('T')[0]; //get just date (yyyy-mm-dd)
   let end = dateRange.endDate.split('T')[0]; //get just date (yyyy-mm-dd)
 
+  api.initialize(activity);
   const response = await api(`/analytics/v3/data/ga?metrics=ga:users,ga:sessions&start-date=${start}&end-date=${end}`);
-  if (Activity.isErrorResponse(response)) return;
+  if ($.isErrorResponse(activity, response)) return;
 
   let visitorsCount = response.body.totalsForAllResults['ga:users'];
   let visitsCount = response.body.totalsForAllResults['ga:sessions'];
 
   try {
-    Activity.Response.Data = {
+    activity.Response.Data = {
       title: T('Traffic By Date'),
       link: 'https://analytics.google.com/analytics/web/',
-      linkLabel: T('All Traffic Data'),
+      linkLabel: T(activity, 'All Traffic Data'),
       chart: {
         configuration: {
           data: {
-            labels: [T('Site Data')],
+            labels: [T(activity, 'Site Data')],
             datasets: [
               {
-                label: T("Visitors"),
+                label: T(activity, "Visitors"),
                 data: [visitorsCount]
               },
               {
-                label: T("Visits"),
+                label: T(activity, "Visits"),
                 data: [visitsCount]
               }
             ]
@@ -35,7 +36,7 @@ module.exports = async (activity) => {
           options: {
             title: {
               display: true,
-              text: T('Site Visits Data')
+              text: T(activity, 'Site Visits Data')
             }
           }
         },
@@ -44,6 +45,6 @@ module.exports = async (activity) => {
       }
     };
   } catch (error) {
-    Activity.handleError(activity);
+    $.handleError(activity, error);
   }
 };
