@@ -2,7 +2,7 @@
 const api = require('./common/api');
 
 module.exports = async (activity) => {
-  var dateRange = $.dateRange(activity, "today");
+  var dateRange = $.dateRange(activity);
   let start = dateRange.startDate.split('T')[0]; //get just date (yyyy-mm-dd)
   let end = dateRange.endDate.split('T')[0]; //get just date (yyyy-mm-dd)
 
